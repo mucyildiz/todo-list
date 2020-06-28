@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#header {
+    background-color: gray;
+    position: relative;
+    display: flex;
+    white-space: nowrap;
+    top: 0;
+    width: 100%;
+    height: 3em;
+    justify-content: space-between;
+}
+
+#hamburger-menu {
+    position: relative;
+    left: 0;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.bar {
+    width: 35px;
+    height: 5px;
+    background-color: black;
+    margin: 6px 0;
+    border: thin solid black;
+    border-radius: 50px;
+}
+
+#title {
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 2em;
+    margin-top: 3px;
+    margin-right: 15px;
+}
+
+#container {
+    position: absolute;
+    background-color: black;
+    width: 100%;
+    max-width: 100%;
+}
+
+#content {
+    position: relative;
+    display: flex;
+    height: calc(100vh - 48px);
+    width: 100%;
+}
+
+#menu {
+    position: relative;
+    height: inherit;
+    width: 300px;
+    background-color: white;
+}
+
+#interface {
+    position: relative;
+    background-color: maroon;
+    width: 100%;
+    height: inherit;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
