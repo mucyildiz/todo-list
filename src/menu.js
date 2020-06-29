@@ -2,6 +2,7 @@ import { Project, Task } from './objects';
 
 
 const Menu = () => {
+    let formOpen = false;
 
     function menuButtonFunctionality(){
         let menuButton = document.getElementById('hamburger-menu');
@@ -45,9 +46,14 @@ const Menu = () => {
 
         projectDiv.appendChild(projectOptions);
         menuContent.appendChild(projectDiv);
+        formOpen = false;
     }
 
     function summonProjectForm(){
+        if(formOpen === true){
+            return;
+        }
+
         let container = document.querySelector('#container');
 
         let projectFormContainer = document.createElement('div');
@@ -61,6 +67,7 @@ const Menu = () => {
         projectName.setAttribute('type', 'text');
         projectName.setAttribute('name', 'project-name');
         projectName.setAttribute('required', true);
+        projectName.id = 'project-name';
         projectForm.appendChild(projectName);
 
         let submitProjectButton = document.createElement('input');
@@ -70,13 +77,18 @@ const Menu = () => {
         submitProjectButton.value = 'Create Project';
         submitProjectButton.addEventListener('click', function(){
             let projectName = document.querySelector(`[name="project-name"]`).value;
-            let addedProject = new Project(projectName)
-            addProjectToMenu(addedProject);
+            if(!(projectName == '')){
+                let addedProject = new Project(projectName)
+                addProjectToMenu(addedProject);
+                submitProjectButton.parentElement.parentElement.style.display = 'none';
+                formOpen = false;
+            }
         })
         projectForm.appendChild(submitProjectButton);
 
         projectFormContainer.appendChild(projectForm);
         container.appendChild(projectFormContainer);
+        formOpen = true;
     }
 
     function addProject(){
