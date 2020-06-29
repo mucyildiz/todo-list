@@ -68,19 +68,21 @@ const Menu = () => {
         projectName.setAttribute('name', 'project-name');
         projectName.setAttribute('required', true);
         projectName.id = 'project-name';
+        projectName.placeholder = 'Project Name';
         projectForm.appendChild(projectName);
 
         let submitProjectButton = document.createElement('input');
-        submitProjectButton.setAttribute('type', 'submit');
+        submitProjectButton.setAttribute('type', 'button');
         submitProjectButton.id = 'submit-project';
         //submitProjectButton.setAttribute('name', 'submit-project');
         submitProjectButton.value = 'Create Project';
         submitProjectButton.addEventListener('click', function(){
-            let projectName = document.querySelector(`[name="project-name"]`).value;
+            let projectName = document.querySelector('#project-name').value;
+            console.log(document.querySelector('#project-name').value);
             if(!(projectName == '')){
                 let addedProject = new Project(projectName)
                 addProjectToMenu(addedProject);
-                submitProjectButton.parentElement.parentElement.style.display = 'none';
+                submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
                 formOpen = false;
             }
         })
@@ -94,6 +96,10 @@ const Menu = () => {
     function addProject(){
         let addProjectButton = document.getElementById('add-project');
         addProjectButton.addEventListener('click', summonProjectForm);
+    }
+
+    function editProject(){
+
     }
 
 
