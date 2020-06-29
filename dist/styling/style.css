@@ -77,12 +77,10 @@
     width: 100%;
     background-color: #204051;
     height: 50px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
 }
 
-.add-btn {
+#add-project {
     float: right;
-
     margin-right: 10px;
     padding: 5px;
 }
@@ -95,5 +93,36 @@
 #menu-content {
     background-color: #204051;
     position: relative;
-    height: calc(100vh - 102px);
+    height: calc(100vh - 100px);
+}
+
+.menu-project {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+.menu-project:nth-of-type(odd){
+    background-color: #3e6a81;
+}
+
+.menu-project:nth-of-type(even){
+    background-color: #254c61;
+}
+
+.menu-project-options {
+    margin-right: 15px;
+}
+.menu-project-edit {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.menu-project-del {
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }

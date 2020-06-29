@@ -1,8 +1,8 @@
 function Project(name){
-    this.displayedName = name;
+    this.name = name;
     this.taskArray = [];
     this.editName = function(newName){
-        this.displayedName = newName;
+        this.name = newName;
     }
     this.sortTasks = function(sortMethod){
         //TODO
