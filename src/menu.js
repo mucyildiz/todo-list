@@ -76,14 +76,11 @@ const Menu = () => {
         submitProjectButton.id = 'submit-project';
         //submitProjectButton.setAttribute('name', 'submit-project');
         submitProjectButton.value = 'Create Project';
-        submitProjectButton.addEventListener('click', function(){
-            let projectName = document.querySelector('#project-name').value;
-            console.log(document.querySelector('#project-name').value);
-            if(!(projectName == '')){
-                let addedProject = new Project(projectName)
-                addProjectToMenu(addedProject);
-                submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
-                formOpen = false;
+        submitProjectButton.addEventListener('click', submitForm);
+        projectName.addEventListener('keyup', function(e){
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                submitProjectButton.click();
             }
         })
         projectForm.appendChild(submitProjectButton);
@@ -102,6 +99,16 @@ const Menu = () => {
 
     }
 
+    function submitForm(){
+        let submitProjectButton = document.getElementById('submit-project');
+        let projectName = document.querySelector('#project-name').value;
+        if(!(projectName == '')){
+            let addedProject = new Project(projectName)
+            addProjectToMenu(addedProject);
+            submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
+            formOpen = false;
+        }
+    }
 
 
 
