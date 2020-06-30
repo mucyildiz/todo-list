@@ -34,6 +34,9 @@ const Menu = () => {
         let projectEdit = document.createElement('img');
         projectEdit.className = 'menu-project-edit';
         projectEdit.src = 'styling/images/edit.png';
+        projectEdit.addEventListener('click', function(){
+            editProject(projectEdit);
+        });
         projectOptions.appendChild(projectEdit);
 
         let projectDelete = document.createElement('img');
@@ -49,7 +52,8 @@ const Menu = () => {
         formOpen = false;
     }
 
-    function summonProjectForm(){
+    //isCreate is boolean (if false, then it's edit)
+    function summonProjectForm(isCreate, editedProject = undefined){
         if(formOpen === true){
             return;
         }
@@ -66,17 +70,27 @@ const Menu = () => {
         let projectName = document.createElement('input');
         projectName.setAttribute('type', 'text');
         projectName.setAttribute('name', 'project-name');
-        projectName.setAttribute('required', true);
+        projectName.setAttribute('required', isCreate);
         projectName.id = 'project-name';
-        projectName.placeholder = 'Project Name';
+        
         projectForm.appendChild(projectName);
 
         let submitProjectButton = document.createElement('input');
         submitProjectButton.setAttribute('type', 'button');
         submitProjectButton.id = 'submit-project';
         //submitProjectButton.setAttribute('name', 'submit-project');
-        submitProjectButton.value = 'Create Project';
-        submitProjectButton.addEventListener('click', submitForm);
+        if(isCreate){
+            submitProjectButton.value = 'Create Project';
+            submitProjectButton.addEventListener('click', function(){
+                submitForm(isCreate);
+            });
+        }
+        else if(!isCreate){
+            submitProjectButton.value = 'Change Name';
+            submitProjectButton.addEventListener('click', function(){
+                submitForm(isCreate, editedProject);
+            });
+        }
         projectName.addEventListener('keyup', function(e){
             if (event.keyCode === 13) {
                 event.preventDefault();
@@ -92,22 +106,30 @@ const Menu = () => {
 
     function addProject(){
         let addProjectButton = document.getElementById('add-project');
-        addProjectButton.addEventListener('click', summonProjectForm);
+        addProjectButton.addEventListener('click', summonProjectForm(true));
     }
 
-    function editProject(){
-
+    function editProject(editedProject){
+        summonProjectForm(false, editedProject);
     }
 
-    function submitForm(){
+    function submitForm(isCreate, editedProject = undefined){
         let submitProjectButton = document.getElementById('submit-project');
         let projectName = document.querySelector('#project-name').value;
-        if(!(projectName == '')){
-            let addedProject = new Project(projectName)
-            addProjectToMenu(addedProject);
-            submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
-            formOpen = false;
+        if(isCreate){
+            if(!(projectName == '')){
+                let addedProject = new Project(projectName)
+                addProjectToMenu(addedProject);
+                submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
+            }
         }
+        else{
+            let editedProjectName = editedProject.parentElement.parentElement.childNodes[0];
+            console.log(editedProjectName);
+            editedProjectName.innerHTML = projectName;
+            submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
+        }
+        formOpen = false;
     }
 
 
