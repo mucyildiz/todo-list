@@ -224,3 +224,23 @@ input[type=text]{
 #right-side-tasks-header{
     display: flex;
 }
+
+#task-header{
+    display: flex;
+    padding-top: 5px;
+}
+
+#interface-project-name{
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+#add-task{
+    padding: 0 5px 0 5px;
+}
+
+.task-container{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+}

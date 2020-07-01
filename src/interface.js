@@ -7,7 +7,7 @@ const Interface = () => {
         tasksContainer.innerHTML = '';
     }
 
-    function convertTask(task){
+    function convertTask(task, project){
         let taskContainer = document.createElement('div');
         taskContainer.className = 'task-container';
 
@@ -21,6 +21,19 @@ const Interface = () => {
 
         let taskPriority = document.createElement('div');
         taskPriority.className = 'task-priority';
+        taskPriority.innerHTML = task.priority;
+
+        let deleteTask = document.createElement('img');
+        deleteTask.src = 'styling/images/trash.png';
+        deleteTask.className = 'menu-project-del';
+        deleteTask.addEventListener('click', function(e){
+            let tasksContainer = document.querySelector('#tasks-container');
+            let tasksArray = Array.from(tasksContainer.children);
+            let taskIndex = (tasksArray.indexOf(e.target.parentElement) - 1);
+            project.taskArray.splice(taskIndex, 1);
+            populateInterface(project);
+        })
+        taskContainer.appendChild(deleteTask);
 
         let taskDueDate = document.createElement('div');
         taskDueDate.className = 'task-duedate';
@@ -57,10 +70,8 @@ const Interface = () => {
         taskHeader.appendChild(addTaskButton);
         tasksContainer.appendChild(taskHeader);
 
-        if(project.taskArray.length > 0){
-            for(task of project.taskArray){
-                tasksContainer.appendChild(convertTask(task));
-            }
+        for(let task of project.taskArray){
+            tasksContainer.appendChild(convertTask(task, project));
         }
     }
 
@@ -70,6 +81,7 @@ const Interface = () => {
         let taskForm = document.createElement('form');
         taskFormContainer.id = 'task-form-container';
         taskForm.id = 'task-form';
+        taskForm.onsubmit = function(){return false};
 
         let taskName = document.createElement('input');
         taskName.setAttribute('type', 'text');
@@ -81,8 +93,9 @@ const Interface = () => {
         taskDescription.id = 'task-description';
         taskForm.appendChild(taskDescription);
 
-        let taskPriority = document.createElement('div');
+        let taskPriority = document.createElement('input');
         taskPriority.id = 'task-priority';
+        taskPriority.setAttribute('type', 'number');
         taskForm.appendChild(taskPriority);
 
         let taskDueDate = document.createElement('div');
@@ -91,11 +104,22 @@ const Interface = () => {
         taskForm.appendChild(taskDueDate);
 
         let submitTask = document.createElement('button');
-        submitTask.id = 'submit-task';
+        submitTask.id = 'add-task';
+        submitTask.innerHTML = 'Add Task';
+
+
+
+        submitTask.addEventListener('click', function(){
+            let task = new Task(taskName.value, taskDescription.value, taskPriority.value, taskDueDate.value);
+            project.taskArray.push(task);
+            populateInterface(project);
+        })
+
         taskForm.appendChild(submitTask);
 
         taskFormContainer.appendChild(taskForm);
         container.appendChild(taskFormContainer);
+
 
     }
 
