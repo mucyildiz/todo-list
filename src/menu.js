@@ -1,8 +1,10 @@
 import { Project, Task } from './objects';
+import { Interface } from './interface';
 
 
 const Menu = () => {
     let formOpen = false;
+    const taskInterface = Interface();
 
     function menuButtonFunctionality(){
         let menuButton = document.getElementById('hamburger-menu');
@@ -30,13 +32,16 @@ const Menu = () => {
         let projectTitle = document.createElement('h4');
         projectTitle.className = 'menu-project-title';
         projectTitle.innerHTML = addedProject.name;
+        projectTitle.addEventListener('click', function(){
+            taskInterface.populateInterface(addedProject);
+        })
         projectDiv.appendChild(projectTitle);
 
         let projectEdit = document.createElement('img');
         projectEdit.className = 'menu-project-edit';
         projectEdit.src = 'styling/images/edit.png';
         projectEdit.addEventListener('click', function(){
-            editProject(projectEdit);
+            editProject(projectEdit, addedProject);
         });
         projectOptions.appendChild(projectEdit);
 
@@ -59,20 +64,22 @@ const Menu = () => {
     }
 
     //isCreate is boolean (if false, then it's edit)
-    function summonProjectForm(isCreate, editedProject = undefined){
+    function summonProjectForm(isCreate, editedProject = undefined, editedProjectObject = undefined){
         if(formOpen === true){
             return;
         }
-        
+
         let menuContent = document.getElementById('menu-content');
         let projectsHeight = 0;
-        for(let project of menuContent.children){
-            projectsHeight += project.clientHeight;
-            //did - 25 because technically we could add another one but it went out of the screen
-            if(projectsHeight > menuContent.clientHeight - 25){
-                alert('Max number of projects reached.');
-                return false;
-            } 
+        if(isCreate){
+            for(let project of menuContent.children){
+                projectsHeight += project.clientHeight;
+                //did - 25 because technically we could add another one but it went out of the screen
+                if(projectsHeight > menuContent.clientHeight - 25){
+                    alert('Max number of projects reached.');
+                    return false;
+                } 
+            }
         }
 
         let container = document.querySelector('#container');
@@ -112,7 +119,7 @@ const Menu = () => {
         else if(!isCreate){
             submitProjectButton.value = 'Change Name';
             submitProjectButton.addEventListener('click', function(){
-                submitForm(isCreate, editedProject);
+                submitForm(isCreate, editedProject, editedProjectObject);
             });
         }
         projectName.addEventListener('keyup', function(e){
@@ -133,11 +140,11 @@ const Menu = () => {
         addProjectButton.addEventListener('click', function(){summonProjectForm(true)});
     }
 
-    function editProject(editedProject){
-        summonProjectForm(false, editedProject);
+    function editProject(editedProject, editedProjectObject){
+        summonProjectForm(false, editedProject, editedProjectObject);
     }
 
-    function submitForm(isCreate, editedProject = undefined){
+    function submitForm(isCreate, editedProject = undefined, editedProjectObject = undefined){
         let submitProjectButton = document.getElementById('submit-project');
         let projectName = document.querySelector('#project-name').value;
         if(isCreate){
@@ -151,6 +158,8 @@ const Menu = () => {
             if(!projectName.trim() == ''){
                 let editedProjectName = editedProject.parentElement.parentElement.childNodes[0];
                 editedProjectName.innerHTML = projectName;
+                editedProjectObject.name = projectName;
+                taskInterface.populateInterface(editedProjectObject);
                 submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
             }
         }

@@ -4,14 +4,8 @@ function Project(name){
     this.editName = function(newName){
         this.name = newName;
     }
-    this.sortTasks = function(sortMethod){
-        //TODO
-    }
     this.addTask = function(task){
         this.taskArray.push(task);
-    }
-    this.deleteProject = function(){
-        //TODO
     }
 }
 

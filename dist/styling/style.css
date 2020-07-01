@@ -118,6 +118,7 @@
     width: auto;
     word-wrap: break-word;
     max-width: 173px;
+    cursor: pointer;
 }
 .menu-project-options {
     margin-right: 15px;
@@ -180,4 +181,46 @@ input[type=text]{
 
 .all-projects{
     height: 28.2px;
+}
+
+#tasks-container{
+    position: relative;
+    background-color: white;
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#tasks-header{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#arrow-up{
+    margin-top: 5px;
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid black;
+    display: none;
+}
+
+#arrow-down{
+    margin-top: 5px;
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+}
+
+#left-side-tasks-header{
+    display: flex;
+}
+
+#right-side-tasks-header{
+    display: flex;
 }
