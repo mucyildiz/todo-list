@@ -3,8 +3,10 @@ import { Project, Task } from './objects';
 
 const menu = Menu();
 menu.menuButtonFunctionality();
-let ourProject = new Project('Borpey');
-menu.addProjectToMenu(ourProject);
-let projectTwo = new Project('Chorpey');
-menu.addProjectToMenu(projectTwo);
+let allProject = new Project('All Tasks');
+menu.addProjectToMenu(allProject, true);
 menu.addProject();
+for(let i=0; i<21; i++){
+    let project = new Project(i.toString());
+    menu.addProjectToMenu(project);
+}
