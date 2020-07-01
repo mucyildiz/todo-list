@@ -4,7 +4,7 @@
 }
 
 #header {
-    background-color: #e7dfd5;
+    background-color: #204051;
     position: relative;
     display: flex;
     white-space: nowrap;
@@ -75,7 +75,7 @@
     align-items: center;
     position: relative;
     width: 100%;
-    background-color: #204051;
+    background-color: #ada59a;
     height: 50px;
 }
 
@@ -91,33 +91,51 @@
 }
 
 #menu-content {
-    background-color: #204051;
+    background-color: #e7dfd5;
     position: relative;
     height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
+    overflow: hidden;
 }
 
 .menu-project {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding-left: 5px;
-    padding-top: 5px;
+    min-width: 250px;
 }
 
 .menu-project:nth-of-type(odd){
-    background-color: #3e6a81;
+    background-color: #d4d2cf;
 }
 
 .menu-project:nth-of-type(even){
-    background-color: #254c61;
+    background-color: #f3efea;
 }
 
+.menu-project-title{
+    width: auto;
+    word-wrap: break-word;
+    max-width: 173px;
+}
 .menu-project-options {
     margin-right: 15px;
+    padding-top: 4.2px;
 }
+
 .menu-project-edit {
     width: 20px;
     height: 20px;
     cursor: pointer;
+}
+
+.menu-project-edit:hover {
+    transform: translateY(.5px);
+}
+
+.menu-project-del:hover {
+    transform: translateY(.5px);
 }
 
 .menu-project-del {
@@ -136,7 +154,8 @@
     background-color: #204051;
     border: 2px solid black;
     border-radius: 25px;
-    box-shadow: 2px 3px 4px black;
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.5);
+
 }
 
 #project-form{
@@ -157,4 +176,8 @@
 
 input[type=text]{
     padding-left: 5px;
+}
+
+.all-projects{
+    height: 28.2px;
 }
