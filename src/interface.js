@@ -11,6 +11,9 @@ const Interface = () => {
         let taskContainer = document.createElement('div');
         taskContainer.className = 'task-container';
 
+        let taskProps = document.createElement('div');
+        taskProps.className = 'task-props';
+
         let taskName = document.createElement('div');
         taskName.className = 'task-name';
         taskName.innerHTML = task.name;
@@ -23,6 +26,14 @@ const Interface = () => {
         taskPriority.className = 'task-priority';
         taskPriority.innerHTML = task.priority;
 
+        let taskDueDate = document.createElement('input');
+        taskDueDate.setAttribute('type', 'date');
+        taskDueDate.value = "2018-07-22";
+        taskDueDate.className = 'task-duedate';
+
+        let taskOptions = document.createElement('div');
+        taskOptions.className = 'task-options';
+
         let deleteTask = document.createElement('img');
         deleteTask.src = 'styling/images/trash.png';
         deleteTask.className = 'menu-project-del';
@@ -33,15 +44,21 @@ const Interface = () => {
             project.taskArray.splice(taskIndex, 1);
             populateInterface(project);
         })
-        taskContainer.appendChild(deleteTask);
 
-        let taskDueDate = document.createElement('div');
-        taskDueDate.className = 'task-duedate';
+        let editTask = document.createElement('img');
+        editTask.src = 'styling/images/edit.png';
+        editTask.className = 'menu-project-edit';
+        taskOptions.appendChild(deleteTask);
+        taskOptions.appendChild(editTask);
 
-        taskContainer.appendChild(taskName);
-        taskContainer.appendChild(taskDescription);
-        taskContainer.appendChild(taskPriority);
-        taskContainer.appendChild(taskDueDate);
+        taskProps.appendChild(taskName);
+        taskProps.appendChild(taskDescription);
+        taskProps.appendChild(taskPriority);
+        taskProps.appendChild(taskDueDate);
+
+        taskContainer.appendChild(taskProps);
+        taskContainer.appendChild(taskOptions);
+        
 
         return taskContainer;
     }
@@ -52,8 +69,28 @@ const Interface = () => {
 
         let tasksContainer = document.querySelector('#tasks-container');
         
+        let projectTitle = document.createElement('div');
+        projectTitle.id = 'task-title';
+
         let taskHeader = document.createElement('div');
         taskHeader.id = 'task-header';
+
+        let taskTitle = document.createElement('h3');
+        taskTitle.innerHTML = 'Task';
+        taskHeader.appendChild(taskTitle);
+
+        let taskDesc = document.createElement('h3');
+        taskDesc.innerHTML = "Description";
+        taskHeader.appendChild(taskDesc);
+
+        let taskPriority = document.createElement('h3');
+        taskPriority.innerHTML = "Priority";
+        taskHeader.appendChild(taskPriority);
+
+        let taskDue = document.createElement('h3');
+        taskDue.innerHTML = 'Due Date';
+        taskHeader.appendChild(taskDue);
+
 
         let projectName = document.createElement('h2');
         projectName.innerHTML = project.name;
@@ -66,8 +103,9 @@ const Interface = () => {
             createTask(project);
         })
 
-        taskHeader.appendChild(projectName);
-        taskHeader.appendChild(addTaskButton);
+        projectTitle.appendChild(projectName);
+        projectTitle.appendChild(addTaskButton);
+        tasksContainer.appendChild(projectTitle);
         tasksContainer.appendChild(taskHeader);
 
         for(let task of project.taskArray){
@@ -98,7 +136,7 @@ const Interface = () => {
         taskPriority.setAttribute('type', 'number');
         taskForm.appendChild(taskPriority);
 
-        let taskDueDate = document.createElement('div');
+        let taskDueDate = document.createElement('input');
         taskDueDate.setAttribute('type', 'date');
         taskDueDate.id = 'task-due-date';
         taskForm.appendChild(taskDueDate);
@@ -113,6 +151,7 @@ const Interface = () => {
             let task = new Task(taskName.value, taskDescription.value, taskPriority.value, taskDueDate.value);
             project.taskArray.push(task);
             populateInterface(project);
+            submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
         })
 
         taskForm.appendChild(submitTask);

@@ -185,11 +185,14 @@ input[type=text]{
 
 #tasks-container{
     position: relative;
-    background-color: white;
+    background-color: #204051;;
     width: 50%;
-    height: 50%;
+    height: auto;
     margin: 0 auto;
     margin-top: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 #tasks-header{
@@ -217,17 +220,10 @@ input[type=text]{
     border-top: 5px solid black;
 }
 
-#left-side-tasks-header{
-    display: flex;
-}
-
-#right-side-tasks-header{
-    display: flex;
-}
-
-#task-header{
+#task-title{
     display: flex;
     padding-top: 5px;
+    padding-bottom: 15px;
 }
 
 #interface-project-name{
@@ -240,7 +236,55 @@ input[type=text]{
 }
 
 .task-container{
+    border: 2px solid black;
+    border-radius: 10px; 
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+
+#task-form-container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: #ada59a;
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.5);
+}
+
+#task-form{
     display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+#add-task{
+    grid-column: span 2;
+}
+
+#task-header{
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr 3fr 1fr;
+    justify-items: center;
+}
+
+.task-container{
+    display: grid;
+    grid-template-columns: 12fr 1fr;
+}
+
+.task-props{
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
+    justify-items: center;
+}
+
+.task-options{
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-desc{
+    max-width: 150px;
 }
