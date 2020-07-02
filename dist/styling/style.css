@@ -179,8 +179,12 @@ input[type=text]{
     padding-left: 5px;
 }
 
-.all-projects{
+.menu-project:first-of-type{
     height: 28.2px;
+}
+
+.menu-project:first-of-type .menu-project-options{
+    display: none;
 }
 
 #tasks-container{

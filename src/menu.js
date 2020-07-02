@@ -3,6 +3,7 @@ import { Interface } from './interface';
 
 
 const Menu = () => {
+    let projects = [];
     let formOpen = false;
     const taskInterface = Interface();
 
@@ -19,8 +20,12 @@ const Menu = () => {
         })
     }
 
-    //put in isAll because there will be a default project that contains every task;
-    function addProjectToMenu(addedProject, isAllCategory = false){
+    function clearMenuContent(){
+        let menuContent = document.getElementById('menu-content');
+        menuContent.innerHTML = '';
+    }
+
+    function convertProjectObject(project, isAllCategory = false){
         let menuContent = document.getElementById('menu-content');
 
         let projectDiv = document.createElement('div');
@@ -31,9 +36,9 @@ const Menu = () => {
 
         let projectTitle = document.createElement('h4');
         projectTitle.className = 'menu-project-title';
-        projectTitle.innerHTML = addedProject.name;
+        projectTitle.innerHTML = project.name;
         projectTitle.addEventListener('click', function(){
-            taskInterface.populateInterface(addedProject);
+            taskInterface.populateInterface(project);
         })
         projectDiv.appendChild(projectTitle);
 
@@ -41,7 +46,7 @@ const Menu = () => {
         projectEdit.className = 'menu-project-edit';
         projectEdit.src = 'styling/images/edit.png';
         projectEdit.addEventListener('click', function(){
-            editProject(projectEdit, addedProject);
+            editProject(projectEdit, project);
         });
         projectOptions.appendChild(projectEdit);
 
@@ -49,7 +54,11 @@ const Menu = () => {
         projectDelete.className = 'menu-project-del';
         projectDelete.src = 'styling/images/trash.png';
         projectDelete.addEventListener('click', function(e){
-            e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode);
+            let menuProjects = Array.from(menuContent.children);
+            let projectIndex = menuProjects.indexOf(e.target.parentElement.parentElement);
+            projects.splice(projectIndex, 1);
+            updateMenu();
+            
         })
         projectOptions.appendChild(projectDelete);
 
@@ -59,12 +68,22 @@ const Menu = () => {
         else if(isAllCategory){
             projectDiv.classList.add('all-projects');
         }
-        menuContent.appendChild(projectDiv);
+
+        return projectDiv;
+    }
+
+    function updateMenu(){
+        let menuContent = document.getElementById('menu-content');
+        clearMenuContent();
+        for(let project of projects){
+            menuContent.appendChild(convertProjectObject(project));
+        }
         formOpen = false;
+
     }
 
     //isCreate is boolean (if false, then it's edit)
-    function summonProjectForm(isCreate, editedProject = undefined, editedProjectObject = undefined){
+    function summonProjectForm(isCreate, editedProjectObject = undefined){
         if(formOpen === true){
             return;
         }
@@ -100,7 +119,7 @@ const Menu = () => {
             projectName.placeholder = 'Project Name';
         }
         else if (!isCreate){
-            projectName.value = editedProject.parentElement.parentElement.childNodes[0].innerHTML;
+            projectName.value = editedProjectObject.name;
             projectName.placeholder = 'New Name';
         }
         
@@ -119,7 +138,7 @@ const Menu = () => {
         else if(!isCreate){
             submitProjectButton.value = 'Change Name';
             submitProjectButton.addEventListener('click', function(){
-                submitForm(isCreate, editedProject, editedProjectObject);
+                submitForm(isCreate, editedProjectObject);
             });
         }
         projectName.addEventListener('keyup', function(e){
@@ -141,25 +160,24 @@ const Menu = () => {
     }
 
     function editProject(editedProject, editedProjectObject){
-        summonProjectForm(false, editedProject, editedProjectObject);
+        summonProjectForm(false, editedProjectObject);
     }
 
-    function submitForm(isCreate, editedProject = undefined, editedProjectObject = undefined){
+    function submitForm(isCreate, editedProjectObject = undefined){
         let submitProjectButton = document.getElementById('submit-project');
         let projectName = document.querySelector('#project-name').value;
         if(isCreate){
             if(!(projectName.trim() == '')){
                 let addedProject = new Project(projectName)
-                addProjectToMenu(addedProject);
+                projects.push(addedProject);
+                updateMenu();
                 submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
             }
         }
         else{
             if(!projectName.trim() == ''){
-                let editedProjectName = editedProject.parentElement.parentElement.childNodes[0];
-                editedProjectName.innerHTML = projectName;
                 editedProjectObject.name = projectName;
-                taskInterface.populateInterface(editedProjectObject);
+                updateMenu();
                 submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
             }
         }
@@ -168,7 +186,7 @@ const Menu = () => {
 
 
 
-    return {menuButtonFunctionality, addProjectToMenu, addProject};
+    return {menuButtonFunctionality, addProject, projects, updateMenu};
 
 }
 
