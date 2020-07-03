@@ -7,6 +7,10 @@ function Project(name){
     this.addTask = function(task){
         this.taskArray.push(task);
     }
+    function indexOfProject(projectArray){
+        return projectArray.indexOf(this);
+    }
+    return { indexOfProject };
 }
 
 function Task(name, description, priority, dueDate){

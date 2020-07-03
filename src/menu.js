@@ -45,9 +45,7 @@ const Menu = () => {
         projectTitle.className = 'menu-project-title';
         projectTitle.innerHTML = project.name;
         projectTitle.addEventListener('click', function(e){
-            let projectsArray = Array.from(e.target.parentElement.parentElement.children);
-            let projectIndex = projectsArray.indexOf(e.target.parentElement);
-            console.log(projectIndex);
+            let projectIndex = projects.indexOf(project);
             tasksContainer.style.display = 'block';
             taskInterface.populateInterface(project, projectIndex);
         })

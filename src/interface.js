@@ -136,7 +136,12 @@ const Interface = () => {
                 alert("Maxiumum number of tasks reached.");
                 return false;
             }
-            createTask(project);
+            if(projectIndex === undefined){
+                createTask(project);
+            }
+            else if(projectIndex !== undefined){
+                createTask(project, undefined, projectIndex);
+            }
         })
 
         let buttons = document.createElement('div');
@@ -155,7 +160,7 @@ const Interface = () => {
         }
     }
 
-    function createTask(project, indexOfEdit = undefined){
+    function createTask(project, indexOfEdit = undefined, indexOfProject = undefined){
         if(formOpen === true){
             return false;
         }
@@ -214,7 +219,12 @@ const Interface = () => {
             if(indexOfEdit === undefined){
                 let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
                 project.taskArray.push(task);
-                populateInterface(project);
+                if(indexOfProject !== undefined){
+                    populateInterface(project, indexOfProject);
+                }
+                else if(indexOfProject === undefined){
+                    populateInterface(project);
+                }
                 submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
                 formOpen = false;
             }
