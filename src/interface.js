@@ -9,7 +9,7 @@ const Interface = () => {
         tasksContainer.innerHTML = '';
     }
 
-    function convertTask(task, project){
+    function convertTask(task, project, projectIndex){
         let taskContainer = document.createElement('div');
         taskContainer.className = 'task-container';
 
@@ -44,9 +44,10 @@ const Interface = () => {
         deleteTask.addEventListener('click', function(e){
             let tasksContainer = document.querySelector('#tasks-container');
             let tasksArray = Array.from(tasksContainer.children);
-            let taskIndex = (tasksArray.indexOf(e.target.parentElement) - 1);
+            let taskIndex = (tasksArray.indexOf(e.target.parentElement.parentElement) - 2);
+            console.log(taskIndex);
             project.taskArray.splice(taskIndex, 1);
-            populateInterface(project);
+            populateInterface(project, projectIndex);
         })
 
         let editTask = document.createElement('img');
@@ -55,7 +56,7 @@ const Interface = () => {
         editTask.addEventListener('click', function(e){
             let tasksArray = Array.from(e.target.parentElement.parentElement.parentElement.children).slice(2);
             let indexOfTask = tasksArray.indexOf(e.target.parentElement.parentElement);
-            createTask(project, indexOfTask);
+            createTask(project, projectIndex, indexOfTask);
         })
         //TODO add edit task event listener. Will bring up form with old values already placed in
         //can get index from index of children of task container
@@ -77,15 +78,16 @@ const Interface = () => {
         return taskContainer;
     }
 
-    function populateInterface(project, projectIndex=undefined){
+    function saveProjects(project, projectIndex){
+        let projects = JSON.parse(window.localStorage.getItem('projects'));
+        projects[projectIndex].taskArray = project.taskArray;
+        window.localStorage.setItem('projects', JSON.stringify(projects));
+    }
+
+    function populateInterface(project, projectIndex){
         clearTasks();
 
-        if(projectIndex !== undefined){
-            let projects = JSON.parse(window.localStorage.getItem('projects'));
-            projects[projectIndex].taskArray = project.taskArray;
-            console.log(projectIndex);
-            window.localStorage.setItem('projects', JSON.stringify(projects));
-        }
+        saveProjects(project, projectIndex);
 
         let tasksContainer = document.querySelector('#tasks-container');
         
@@ -124,7 +126,7 @@ const Interface = () => {
         clearProjectTasks.innerHTML = 'Clear Tasks';
         clearProjectTasks.addEventListener('click', function(){
             project.taskArray = [];
-            populateInterface(project);
+            populateInterface(project, projectIndex);
         })
 
         let addTaskButton = document.createElement('button');
@@ -136,7 +138,7 @@ const Interface = () => {
                 alert("Maxiumum number of tasks reached.");
                 return false;
             }
-            createTask(project);
+            createTask(project, projectIndex);
         })
 
         let buttons = document.createElement('div');
@@ -151,11 +153,11 @@ const Interface = () => {
 
 
         for(let task of project.taskArray){
-            tasksContainer.appendChild(convertTask(task, project));
+            tasksContainer.appendChild(convertTask(task, project, projectIndex));
         }
     }
 
-    function createTask(project, indexOfEdit = undefined){
+    function createTask(project, projectIndex, indexOfEdit = undefined){
         if(formOpen === true){
             return false;
         }
@@ -214,7 +216,7 @@ const Interface = () => {
             if(indexOfEdit === undefined){
                 let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
                 project.taskArray.push(task);
-                populateInterface(project);
+                populateInterface(project, projectIndex);
                 submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
                 formOpen = false;
             }
@@ -224,7 +226,7 @@ const Interface = () => {
                 selectedTask.description = taskDescription.value;
                 selectedTask.priority = taskPriority.getPriority();
                 selectedTask.dueDate = taskDueDate.value;
-                populateInterface(project);
+                populateInterface(project, projectIndex);
                 submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
                 formOpen = false;
             }
