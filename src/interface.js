@@ -136,12 +136,7 @@ const Interface = () => {
                 alert("Maxiumum number of tasks reached.");
                 return false;
             }
-            if(projectIndex === undefined){
-                createTask(project);
-            }
-            else if(projectIndex !== undefined){
-                createTask(project, undefined, projectIndex);
-            }
+            createTask(project);
         })
 
         let buttons = document.createElement('div');
@@ -160,7 +155,7 @@ const Interface = () => {
         }
     }
 
-    function createTask(project, indexOfEdit = undefined, indexOfProject = undefined){
+    function createTask(project, indexOfEdit = undefined){
         if(formOpen === true){
             return false;
         }
@@ -219,18 +214,16 @@ const Interface = () => {
             if(indexOfEdit === undefined){
                 let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
                 project.taskArray.push(task);
-                if(indexOfProject !== undefined){
-                    populateInterface(project, indexOfProject);
-                }
-                else if(indexOfProject === undefined){
-                    populateInterface(project);
-                }
+                populateInterface(project);
                 submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
                 formOpen = false;
             }
             else if(indexOfEdit !== undefined){
                 let selectedTask = project.taskArray[indexOfEdit];
-                selectedTask.editTask(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
+                selectedTask.name = taskName.value;
+                selectedTask.description = taskDescription.value;
+                selectedTask.priority = taskPriority.getPriority();
+                selectedTask.dueDate = taskDueDate.value;
                 populateInterface(project);
                 submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
                 formOpen = false;

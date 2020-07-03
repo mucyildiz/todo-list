@@ -19,7 +19,7 @@ function Task(name, description, priority, dueDate){
     this.priority = priority;
     this.dueDate = dueDate;
 
-    this.editTask = function(newName, newDescription, newPriority, newDueDate){
+    function editTask(newName, newDescription, newPriority, newDueDate){
         this.name = newName;
         this.description = newDescription;
         this.priority = newPriority;
