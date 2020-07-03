@@ -5,17 +5,12 @@ function initiateMenu(){
     const menu = Menu();
     menu.menuButtonFunctionality();
     menu.addProject();
-    let allTasks = new Project('All Tasks');
-    menu.projects.push(allTasks);
+    let defaultProject = new Project('Default Project');
+    menu.projects.push(defaultProject);
     menu.updateMenu();
     let tasksContainer = document.querySelector('#tasks-container');
     if(menu.projects[0].taskArray.length === 0){
         tasksContainer.style.display = 'none';
     }
-    return { menu };
 }
-
-
 initiateMenu();
-
-export { initiateMenu };

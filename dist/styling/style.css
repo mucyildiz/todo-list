@@ -118,7 +118,7 @@
     justify-content: space-between;
     align-items: center;
     padding-left: 5px;
-    min-width: 250px;
+    min-width: 225px;
 }
 
 .menu-project:nth-of-type(odd){
@@ -194,13 +194,6 @@ input[type=text]{
     padding-left: 5px;
 }
 
-.menu-project:first-of-type{
-    height: 28.2px;
-}
-
-.menu-project:first-of-type .menu-project-options{
-    display: none;
-}
 
 #tasks-container{
     position: relative;
@@ -300,11 +293,13 @@ input[type=text]{
     display: grid;
     grid-template-columns: 1fr repeat(4, 3fr);
     justify-items: center;
+    align-items: center;
 }
 
 .task-options{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .task-desc{
@@ -312,11 +307,12 @@ input[type=text]{
 }
 
 .task-status{
-    height: 25px;
+    height: 18px;
+    width: 18px;
 }
 
 .priority-button{
-    padding: 0 30px 0 30px;
+    padding: 5px 30px 5px 30px;
     border: 2px solid #204051;
     border-radius: 10px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
