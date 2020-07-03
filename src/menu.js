@@ -144,8 +144,8 @@ const Menu = () => {
             });
         }
         projectName.addEventListener('keyup', function(e){
-            if (event.keyCode === 13) {
-                event.preventDefault();
+            if (e.keyCode === 13) {
+                e.preventDefault();
                 submitProjectButton.click();
             }
         })

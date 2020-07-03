@@ -36,11 +36,12 @@ function PriorityButton(priority){
     function createButton(){
         let createdButton = document.createElement('button');
         updateButton(createdButton);
-        createdButton.className = 'priority-button';
-        createdButton.addEventListener('click', function(){
+        createdButton.className = 'priority-button form-item';
+        createdButton.addEventListener('click', function(e){
             priority = incrementPriority();
             updateButton(createdButton);
-        })
+        });
+        createdButton.setAttribute('type', 'button');
         return createdButton;
 }
 

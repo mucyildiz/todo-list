@@ -2,6 +2,7 @@ import { Project, Task, PriorityButton } from './objects';
 //import { initiateMenu } from './index';
 
 const Interface = () => {
+    let formOpen = false;
 
     function clearTasks(){
         let tasksContainer = document.querySelector('#tasks-container');
@@ -51,6 +52,15 @@ const Interface = () => {
         let editTask = document.createElement('img');
         editTask.src = 'styling/images/edit.png';
         editTask.className = 'menu-project-edit';
+        editTask.addEventListener('click', function(e){
+            let tasksArray = Array.from(e.target.parentElement.parentElement.parentElement.children).slice(2);
+            let indexOfTask = tasksArray.indexOf(e.target.parentElement.parentElement);
+            createTask(project, indexOfTask);
+        })
+        //TODO add edit task event listener. Will bring up form with old values already placed in
+        //can get index from index of children of task container
+        //use editTask from Task object to change values of task
+
         taskOptions.appendChild(deleteTask);
         taskOptions.appendChild(editTask);
 
@@ -103,15 +113,35 @@ const Interface = () => {
         projectName.innerHTML = project.name;
         projectName.id = 'interface-project-name';
 
+        let clearProjectTasks = document.createElement('button');
+        clearProjectTasks.id = 'add-task';
+        clearProjectTasks.innerHTML = 'Clear Tasks';
+        clearProjectTasks.addEventListener('click', function(){
+            console.log(project.taskArray);
+            project.taskArray = [];
+            console.log(project.taskArray);
+            populateInterface(project);
+        })
+
         let addTaskButton = document.createElement('button');
         addTaskButton.id = 'add-task';
         addTaskButton.innerHTML = 'Add Task';
         addTaskButton.addEventListener('click', function(){
+            let taskInterface = document.querySelector('#interface');
+            if((tasksContainer.clientHeight + 100) > taskInterface.clientHeight){
+                alert("Maxiumum number of tasks reached.");
+                return false;
+            }
             createTask(project);
         })
 
+        let buttons = document.createElement('div');
+        buttons.id = 'buttons';
+        buttons.appendChild(clearProjectTasks);
+        buttons.appendChild(addTaskButton);
+
         projectTitle.appendChild(projectName);
-        projectTitle.appendChild(addTaskButton);
+        projectTitle.appendChild(buttons);
         tasksContainer.appendChild(projectTitle);
         tasksContainer.appendChild(taskHeader);
 
@@ -120,7 +150,10 @@ const Interface = () => {
         }
     }
 
-    function createTask(project){
+    function createTask(project, indexOfEdit = undefined){
+        if(formOpen === true){
+            return false;
+        }
         let container = document.querySelector('#container');
         let taskFormContainer = document.createElement('div');
         let taskForm = document.createElement('form');
@@ -130,38 +163,70 @@ const Interface = () => {
 
         let taskName = document.createElement('input');
         taskName.setAttribute('type', 'text');
+        taskName.placeholder = 'Name';
         taskName.id = 'task-name';
+        taskName.classList.add('form-item');
+        if(indexOfEdit !== undefined){
+            taskName.value = project.taskArray[indexOfEdit].name;
+        }
         taskForm.appendChild(taskName);
 
         let taskDescription = document.createElement('input');
         taskDescription.setAttribute('type', 'text');
+        taskDescription.placeholder = 'Description';
         taskDescription.id = 'task-description';
+        taskDescription.classList.add('form-item');
+        if(indexOfEdit !== undefined){
+            taskDescription.value = project.taskArray[indexOfEdit].description;
+        }
         taskForm.appendChild(taskDescription);
-        
-        //priority here
-        let taskPriority = PriorityButton(0);
-        taskForm.appendChild(taskPriority.createButton());
 
         let taskDueDate = document.createElement('input');
         taskDueDate.setAttribute('type', 'date');
         taskDueDate.id = 'task-due-date';
+        taskDueDate.classList.add('form-item');
+        if(indexOfEdit !== undefined){
+            taskDueDate.value = project.taskArray[indexOfEdit].dueDate;
+        }
         taskForm.appendChild(taskDueDate);
 
-        let submitTask = document.createElement('button');
+
+        let taskPriority = PriorityButton(0);
+        if(indexOfEdit !== undefined){
+            let selectedTask = project.taskArray[indexOfEdit];
+            let priority = selectedTask.priority;
+            taskPriority = PriorityButton(priority);
+        }
+        taskForm.appendChild(taskPriority.createButton());
+
+        let submitTask = document.createElement('input');
+        submitTask.setAttribute('type', 'submit');
         submitTask.id = 'add-task-submit';
+        submitTask.classList.add('form-item');
         submitTask.innerHTML = 'Add Task';
 
         submitTask.addEventListener('click', function(){
-            let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
-            project.addTask(task);
-            populateInterface(project);
-            submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
+            if(indexOfEdit === undefined){
+                let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
+                project.addTask(task);
+                populateInterface(project);
+                submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
+                formOpen = false;
+            }
+            else if(indexOfEdit !== undefined){
+                let selectedTask = project.taskArray[indexOfEdit];
+                selectedTask.editTask(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
+                populateInterface(project);
+                submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
+                formOpen = false;
+            }
         })
 
         taskForm.appendChild(submitTask);
 
         taskFormContainer.appendChild(taskForm);
         container.appendChild(taskFormContainer);
+        formOpen = true;
     }
     return { populateInterface };
 

@@ -8,9 +8,9 @@ function initiateMenu(){
     let defaultProject = new Project('Default Project');
     menu.projects.push(defaultProject);
     menu.updateMenu();
-    let tasksContainer = document.querySelector('#tasks-container');
-    if(menu.projects[0].taskArray.length === 0){
-        tasksContainer.style.display = 'none';
+    let menuContent = document.querySelector('#menu-content');
+    if(menuContent.children.length > 0){
+        menuContent.children[0].children[0].click();
     }
 }
 initiateMenu();
