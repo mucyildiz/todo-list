@@ -3,8 +3,14 @@ import { Interface } from './interface';
 
 
 const Menu = () => {
-    let projects = [];
     let formOpen = false;
+    let projects = [];
+    let defaultProject = new Project('Default Project');
+    projects.push(defaultProject);
+    if(typeof(Storage) !== 'undefined'){
+        projects = (JSON.parse(window.localStorage.getItem('projects')));
+    }
+    updateMenu();
     const taskInterface = Interface();
 
     function menuButtonFunctionality(){
@@ -38,9 +44,12 @@ const Menu = () => {
         let projectTitle = document.createElement('h4');
         projectTitle.className = 'menu-project-title';
         projectTitle.innerHTML = project.name;
-        projectTitle.addEventListener('click', function(){
+        projectTitle.addEventListener('click', function(e){
+            let projectsArray = Array.from(e.target.parentElement.parentElement.children);
+            let projectIndex = projectsArray.indexOf(e.target.parentElement);
+            console.log(projectIndex);
             tasksContainer.style.display = 'block';
-            taskInterface.populateInterface(project);
+            taskInterface.populateInterface(project, projectIndex);
         })
         projectDiv.appendChild(projectTitle);
 
@@ -59,6 +68,7 @@ const Menu = () => {
             let menuProjects = Array.from(menuContent.children);
             let projectIndex = menuProjects.indexOf(e.target.parentElement.parentElement);
             projects.splice(projectIndex, 1);
+            window.localStorage.setItem('projects', JSON.stringify(projects));
             updateMenu();
             
         })
@@ -75,6 +85,7 @@ const Menu = () => {
     }
 
     function updateMenu(){
+        window.localStorage.setItem('projects', JSON.stringify(projects));
         let menuContent = document.getElementById('menu-content');
         clearMenuContent();
         for(let project of projects){
@@ -170,8 +181,9 @@ const Menu = () => {
         let projectName = document.querySelector('#project-name').value;
         if(isCreate){
             if(!(projectName.trim() == '')){
-                let addedProject = new Project(projectName)
+                let addedProject = new Project(projectName);
                 projects.push(addedProject);
+                window.localStorage.setItem('projects', JSON.stringify(projects));
                 updateMenu();
                 submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
             }
@@ -179,6 +191,7 @@ const Menu = () => {
         else{
             if(!projectName.trim() == ''){
                 editedProjectObject.name = projectName;
+                window.localStorage.setItem('projects', JSON.stringify(projects));
                 updateMenu();
                 submitProjectButton.parentElement.parentElement.parentElement.removeChild(submitProjectButton.parentElement.parentElement);
             }

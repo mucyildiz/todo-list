@@ -77,9 +77,15 @@ const Interface = () => {
         return taskContainer;
     }
 
-    function populateInterface(project){
-        console.log(project);
+    function populateInterface(project, projectIndex=undefined){
         clearTasks();
+
+        if(projectIndex !== undefined){
+            let projects = JSON.parse(window.localStorage.getItem('projects'));
+            projects[projectIndex].taskArray = project.taskArray;
+            console.log(projectIndex);
+            window.localStorage.setItem('projects', JSON.stringify(projects));
+        }
 
         let tasksContainer = document.querySelector('#tasks-container');
         
@@ -117,9 +123,7 @@ const Interface = () => {
         clearProjectTasks.id = 'add-task';
         clearProjectTasks.innerHTML = 'Clear Tasks';
         clearProjectTasks.addEventListener('click', function(){
-            console.log(project.taskArray);
             project.taskArray = [];
-            console.log(project.taskArray);
             populateInterface(project);
         })
 
@@ -144,6 +148,7 @@ const Interface = () => {
         projectTitle.appendChild(buttons);
         tasksContainer.appendChild(projectTitle);
         tasksContainer.appendChild(taskHeader);
+
 
         for(let task of project.taskArray){
             tasksContainer.appendChild(convertTask(task, project));
@@ -208,7 +213,7 @@ const Interface = () => {
         submitTask.addEventListener('click', function(){
             if(indexOfEdit === undefined){
                 let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
-                project.addTask(task);
+                project.taskArray.push(task);
                 populateInterface(project);
                 submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
                 formOpen = false;
