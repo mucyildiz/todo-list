@@ -104,6 +104,10 @@
     color: white;
 }
 
+#add-project:hover {
+    background-color: #222831;
+}
+
 #menu-title {
     color: black;
     margin-left: 5px;
@@ -139,6 +143,11 @@
     max-width: 173px;
     cursor: pointer;
 }
+
+.menu-project-title:hover{
+    transform: translateY(.5px);
+}
+
 .menu-project-options {
     margin-right: 15px;
     padding-top: 4.2px;
