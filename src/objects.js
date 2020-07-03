@@ -10,7 +10,6 @@ function Project(name){
     function indexOfProject(projectArray){
         return projectArray.indexOf(this);
     }
-    return { indexOfProject };
 }
 
 function Task(name, description, priority, dueDate){
