@@ -26,6 +26,7 @@ const Menu = () => {
     }
 
     function convertProjectObject(project, isAllCategory = false){
+        let tasksContainer = document.querySelector('#tasks-container');
         let menuContent = document.getElementById('menu-content');
 
         let projectDiv = document.createElement('div');
@@ -38,6 +39,7 @@ const Menu = () => {
         projectTitle.className = 'menu-project-title';
         projectTitle.innerHTML = project.name;
         projectTitle.addEventListener('click', function(){
+            tasksContainer.style.display = 'block';
             taskInterface.populateInterface(project);
         })
         projectDiv.appendChild(projectTitle);

@@ -23,4 +23,40 @@ function Task(name, description, priority, dueDate){
     }
 }
 
-export { Project, Task };
+function PriorityButton(priority){
+
+    function incrementPriority(){
+        priority++;
+        if(priority > 2){
+            priority = 0;
+        }
+        return priority;
+    }
+
+    function createButton(){
+        let createdButton = document.createElement('button');
+        updateButton(createdButton);
+        createdButton.id = 'priority-button';
+        createdButton.addEventListener('click', function(){
+            priority = incrementPriority();
+            updateButton(createdButton);
+        })
+        return createdButton;
+}
+
+    function updateButton(button){
+        let bgColors = ['green', 'yellow', 'red'];
+        let priorityLabels = ['Low', 'Medium', 'High'];
+        button.style.backgroundColor = bgColors[priority];
+        button.innerHTML = priorityLabels[priority];
+    }
+
+    function getPriority(){
+        return priority;
+    }
+
+    return { createButton, getPriority };
+
+}
+
+export { Project, Task, PriorityButton };

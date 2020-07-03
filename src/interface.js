@@ -1,4 +1,7 @@
-import { Project, Task } from './objects';
+import { Project, Task, PriorityButton } from './objects';
+import { Menu } from './menu';
+
+
 
 const Interface = () => {
 
@@ -22,13 +25,12 @@ const Interface = () => {
         taskDescription.className = 'task-description';
         taskDescription.innerHTML = task.description;
 
-        let taskPriority = document.createElement('div');
-        taskPriority.className = 'task-priority';
-        taskPriority.innerHTML = task.priority;
+        //priority here
+        let taskPriority = PriorityButton(task.priority);
+        
 
         let taskDueDate = document.createElement('input');
         taskDueDate.setAttribute('type', 'date');
-        taskDueDate.value = "2018-07-22";
         taskDueDate.className = 'task-duedate';
 
         let taskOptions = document.createElement('div');
@@ -53,7 +55,7 @@ const Interface = () => {
 
         taskProps.appendChild(taskName);
         taskProps.appendChild(taskDescription);
-        taskProps.appendChild(taskPriority);
+        taskProps.appendChild(taskPriority.createButton());
         taskProps.appendChild(taskDueDate);
 
         taskContainer.appendChild(taskProps);
@@ -130,11 +132,10 @@ const Interface = () => {
         taskDescription.setAttribute('type', 'text');
         taskDescription.id = 'task-description';
         taskForm.appendChild(taskDescription);
-
-        let taskPriority = document.createElement('input');
-        taskPriority.id = 'task-priority';
-        taskPriority.setAttribute('type', 'number');
-        taskForm.appendChild(taskPriority);
+        
+        //priority here
+        let taskPriority = PriorityButton(0);
+        taskForm.appendChild(taskPriority.createButton());
 
         let taskDueDate = document.createElement('input');
         taskDueDate.setAttribute('type', 'date');
@@ -142,13 +143,11 @@ const Interface = () => {
         taskForm.appendChild(taskDueDate);
 
         let submitTask = document.createElement('button');
-        submitTask.id = 'add-task';
+        submitTask.id = 'add-task-submit';
         submitTask.innerHTML = 'Add Task';
 
-
-
         submitTask.addEventListener('click', function(){
-            let task = new Task(taskName.value, taskDescription.value, taskPriority.value, taskDueDate.value);
+            let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
             project.taskArray.push(task);
             populateInterface(project);
             submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
@@ -158,10 +157,7 @@ const Interface = () => {
 
         taskFormContainer.appendChild(taskForm);
         container.appendChild(taskFormContainer);
-
-
     }
-
     return { populateInterface };
 
 }
