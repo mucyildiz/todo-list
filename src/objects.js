@@ -36,7 +36,7 @@ function PriorityButton(priority){
     function createButton(){
         let createdButton = document.createElement('button');
         updateButton(createdButton);
-        createdButton.id = 'priority-button';
+        createdButton.className = 'priority-button';
         createdButton.addEventListener('click', function(){
             priority = incrementPriority();
             updateButton(createdButton);
@@ -45,7 +45,7 @@ function PriorityButton(priority){
 }
 
     function updateButton(button){
-        let bgColors = ['green', 'yellow', 'red'];
+        let bgColors = ['darkolivegreen', 'gold', 'maroon'];
         let priorityLabels = ['Low', 'Medium', 'High'];
         button.style.backgroundColor = bgColors[priority];
         button.innerHTML = priorityLabels[priority];

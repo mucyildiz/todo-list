@@ -1,7 +1,5 @@
 import { Project, Task, PriorityButton } from './objects';
-import { Menu } from './menu';
-
-
+//import { initiateMenu } from './index';
 
 const Interface = () => {
 
@@ -17,6 +15,10 @@ const Interface = () => {
         let taskProps = document.createElement('div');
         taskProps.className = 'task-props';
 
+        let taskStatus = document.createElement('input');
+        taskStatus.setAttribute('type', 'checkbox');
+        taskStatus.className = 'task-status';
+
         let taskName = document.createElement('div');
         taskName.className = 'task-name';
         taskName.innerHTML = task.name;
@@ -25,12 +27,11 @@ const Interface = () => {
         taskDescription.className = 'task-description';
         taskDescription.innerHTML = task.description;
 
-        //priority here
         let taskPriority = PriorityButton(task.priority);
         
-
         let taskDueDate = document.createElement('input');
         taskDueDate.setAttribute('type', 'date');
+        taskDueDate.value = task.dueDate;
         taskDueDate.className = 'task-duedate';
 
         let taskOptions = document.createElement('div');
@@ -53,6 +54,7 @@ const Interface = () => {
         taskOptions.appendChild(deleteTask);
         taskOptions.appendChild(editTask);
 
+        taskProps.appendChild(taskStatus);
         taskProps.appendChild(taskName);
         taskProps.appendChild(taskDescription);
         taskProps.appendChild(taskPriority.createButton());
@@ -76,6 +78,9 @@ const Interface = () => {
 
         let taskHeader = document.createElement('div');
         taskHeader.id = 'task-header';
+
+        let taskStatus = document.createElement('h3');
+        taskHeader.appendChild(taskStatus);
 
         let taskTitle = document.createElement('h3');
         taskTitle.innerHTML = 'Task';
@@ -148,7 +153,7 @@ const Interface = () => {
 
         submitTask.addEventListener('click', function(){
             let task = new Task(taskName.value, taskDescription.value, taskPriority.getPriority(), taskDueDate.value);
-            project.taskArray.push(task);
+            project.addTask(task);
             populateInterface(project);
             submitTask.parentElement.parentElement.parentElement.removeChild(submitTask.parentElement.parentElement);
         })
