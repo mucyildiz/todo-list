@@ -45,7 +45,6 @@ const Interface = () => {
             let tasksContainer = document.querySelector('#tasks-container');
             let tasksArray = Array.from(tasksContainer.children);
             let taskIndex = (tasksArray.indexOf(e.target.parentElement.parentElement) - 2);
-            console.log(taskIndex);
             project.taskArray.splice(taskIndex, 1);
             populateInterface(project, projectIndex);
         })

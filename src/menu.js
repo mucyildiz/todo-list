@@ -7,11 +7,12 @@ const Menu = () => {
     let projects = [];
     let defaultProject = new Project('Default Project');
     projects.push(defaultProject);
-    if(typeof(Storage) !== 'undefined'){
-        projects = (JSON.parse(window.localStorage.getItem('projects')));
-    }
     updateMenu();
+    if(typeof(Storage) !== 'undefined'){
+        projects = JSON.parse(window.localStorage.getItem('projects'));
+    }
     const taskInterface = Interface();
+
 
     function menuButtonFunctionality(){
         let menuButton = document.getElementById('hamburger-menu');
@@ -45,7 +46,10 @@ const Menu = () => {
         projectTitle.className = 'menu-project-title';
         projectTitle.innerHTML = project.name;
         projectTitle.addEventListener('click', function(e){
-            let projectIndex = projects.indexOf(project);
+            let projectsArray = Array.from(document.querySelector('#menu-content').children);
+            console.log(e.target.parentElement);
+            let projectIndex = projectsArray.indexOf(e.target.parentElement);
+            console.log(projectIndex + ' see');
             tasksContainer.style.display = 'block';
             taskInterface.populateInterface(project, projectIndex);
         })
