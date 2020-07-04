@@ -198,9 +198,22 @@
     font-size: 20px;
 }
 
+input[type=text]:invalid{
+    background-color: maroon;
+}
+input[type=text]:valid{
+    background-color: forestgreen;
+    color:white;
+}
+
 #submit-project{
-    margin-left: 5px;
-    padding: 0 5px 0 5px;
+    margin-left: 10px;
+    padding: 5px;
+    border: 2px solid #fdfdfd;
+    background-color: #204051;
+    font-size: 15px;
+    border-radius: 10px;
+    color: white;
 }
 
 input[type=text]{

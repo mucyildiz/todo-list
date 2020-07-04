@@ -169,6 +169,7 @@ const Interface = () => {
 
         let taskName = document.createElement('input');
         taskName.setAttribute('type', 'text');
+        taskName.setAttribute('required', true);
         taskName.placeholder = 'Name';
         taskName.id = 'task-name';
         taskName.classList.add('form-item');
@@ -179,6 +180,7 @@ const Interface = () => {
 
         let taskDescription = document.createElement('input');
         taskDescription.setAttribute('type', 'text');
+        taskDescription.setAttribute('required', true);
         taskDescription.placeholder = 'Description';
         taskDescription.id = 'task-description';
         taskDescription.classList.add('form-item');
