@@ -51,6 +51,8 @@ function PriorityButton(priority){
     function updateButton(button){
         let bgColors = ['darkolivegreen', 'gold', 'maroon'];
         let priorityLabels = ['Low', 'Medium', 'High'];
+        let textColors = ['white', 'black', 'white'];
+        button.style.color = textColors[priority];
         button.style.backgroundColor = bgColors[priority];
         button.innerHTML = priorityLabels[priority];
     }
